@@ -19,7 +19,7 @@ public class ActivitiesController : BaseApiController
         return await _context.Activities.ToListAsync();
     }
 
-    [HttpGet("{id}")] //api/activities/fdfdfdfdfd
+    [HttpGet("{id}")] //api/activities/GUID
     public async Task<ActionResult<Activity>> GetActivity(Guid id)
     {
         return await _context.Activities.FindAsync(id);

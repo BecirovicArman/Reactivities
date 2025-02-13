@@ -1,3 +1,5 @@
+using Application.Core;
+using Application.Queries.Activities;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -14,13 +16,18 @@ builder.Services.AddDbContext<DataContext>(opt =>
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 // CORS POLICY
-builder.Services.AddCors(opt => {
-    opt.AddPolicy("CorsPolicy", policy => 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", policy =>
     {
         policy.AllowAnyHeader().AllowAnyHeader().WithOrigins("http://localhost:3000");
-    });    
+    });
 });
 
+// Registering Handlers
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetAllActivitiesQueryHandler).Assembly));
+// AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
 var app = builder.Build();
 
